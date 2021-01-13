@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { DAI, ethProvider } from '../../contracts'
+import { WMUE, ethProvider } from '../../contracts'
 import Invoices from '../invoice/manager'
 import { fromBN } from '../../common/utils'
 import config from 'config'
@@ -50,7 +50,7 @@ export function runLastBlockJob() {
       curBlock = await  ethProvider.getBlockNumber()
       if (curBlock > lastBlock) {
         lastBlock = ethProvider.blockNumber
-        await checkPendingInvoices(DAI, ethProvider) 
+        await checkPendingInvoices(WMUE, ethProvider) 
       }
     } catch(e) {
       console.log(e)
