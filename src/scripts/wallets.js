@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js'
 import commandLineArgs from 'command-line-args'
 import { ethers } from 'ethers'
 import Invoices from '../server/invoice/manager'
-import { DAI,ethProvider } from '../contracts'
+import { WMUE,ethProvider } from '../contracts'
 import { fromBN,toBN } from '../common/utils'
 import xhr2 from 'xhr2'
 global.XMLHttpRequest = xhr2
@@ -31,9 +31,9 @@ async function main() {
   const gasless = new Gasless(web3.currentProvider);
   for(let invoice of invoices) {
     const wallet = invoice.wallet
-    let balanceBN = (await DAI.balanceOf(wallet.address))
+    let balanceBN = (await WMUE.balanceOf(wallet.address))
     let balance = fromBN(balanceBN)
-    console.log(`${wallet.address} DAI balance: ${balance} `)
+    console.log(`${wallet.address} WMUE balance: ${balance} `)
     if (balance > 0) {
       let ethBalance = new BigNumber((await ethProvider.getBalance(wallet.address)).toString())
       console.log(`${wallet.address} ETH balance: ${fromBN(ethBalance)}`)
@@ -55,9 +55,9 @@ async function main() {
         const gasPrice = new BigNumber((await ethProvider.getGasPrice()).toString()).multipliedBy(1.25)  // increase last block gasprice 25% for faster transactions
         console.log(`setting gas price to ${gasPrice.toNumber()}`)
 
-        console.log(`collecting ${balance} DAI from ${wallet.address}`)
-        const DAIWithSigner = DAI.connect(new ethers.Wallet(wallet.privateKey, ethProvider))
-        tx = await DAIWithSigner.transfer(options.collect, balanceBN)
+        console.log(`collecting ${balance} WMUE from ${wallet.address}`)
+        const WMUEWithSigner = WMUE.connect(new ethers.Wallet(wallet.privateKey, ethProvider))
+        tx = await WMUEWithSigner.transfer(options.collect, balanceBN)
         try {
           await tx.wait()
           console.log('done.')
