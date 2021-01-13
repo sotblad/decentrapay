@@ -58,7 +58,7 @@ describe('basic functionality', function() {
 
       // Notice we pass in "Hello World" as the parameter to the constructor
       const totalSupply = new BigNumber(100).multipliedBy(new BigNumber(Math.pow(10,18)))
-      factory.deploy(totalSupply.toString(), 'DAI', 18, 'DAI').then( result => {
+      factory.deploy(totalSupply.toString(), 'WMUE', 18, 'WMUE').then( result => {
         contract = result
         console.log("ERC20 contract deployed")
         contract.totalSupply().then( result => console.log("total supply:",result))
