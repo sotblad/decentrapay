@@ -68,7 +68,7 @@ For production mode:
 Invoice object has the following properties:
 
   - apiKey - The API key to verify that the invoice creator is trusted (it is not stored in the database)
-  - currency - Currency of the invoice. DAI,USDT,TUSD,USDC are supported at the moment. (optional)
+  - currency - Currency of the invoice. WMUE is supported at the moment. (optional)
   - merchant - The information about the merchant (optional)
        - name - The merchant’s name
        - address - The address to be displayed in the invoice
@@ -87,7 +87,7 @@ Invoices can be created by sending a POST request to the /api/v1/invoice endpoin
 
 An example with curl (replace API_KEY with the apiKey from the config file):
 
-        curl http://localhost:8000/api/v1/invoice --header "Content-Type: application/json" -X POST -d '{"apiKey":"API_KEY",currency:"DAI","items":[{"description":"My item","amount":1}]}'
+        curl http://localhost:8000/api/v1/invoice --header "Content-Type: application/json" -X POST -d '{"apiKey":"API_KEY",currency:"WMUE","items":[{"description":"My item","amount":1}]}'
 
 The backend will create a new invoice record and return its id
 
@@ -115,13 +115,13 @@ If the invoice was not paid on time, as configured by the *expires* property, it
 ## Maintainence
 
 ### Collecting payments 
-Until it is possible to [pay for gas with tokens](https://github.com/ethereum/EIPs/issues/865) on the Ethereum network, collecting and forwarding payments can be a bit challenge because generated wallets need gas in order to be able to transfer DAI. For that purpose, Decentrapay includes a tool named *wallets* that funds wallets with small amounts of ETH if needed and then transfer tokens out.
+Until it is possible to [pay for gas with tokens](https://github.com/ethereum/EIPs/issues/865) on the Ethereum network, collecting and forwarding payments can be a bit challenge because generated wallets need gas in order to be able to transfer WMUE. For that purpose, Decentrapay includes a tool named *wallets* that funds wallets with small amounts of ETH if needed and then transfer tokens out.
 
 Example command usage:
    
     npm run wallets --  --fundamount 0.001 --collect <YOUR ETHEREUM ADDRESS> --privatekey 4e4a0db6ee08f21c68923f9a068a40c97769796fc88232c465a932d102a6eab4
 
-the *collect* parameter specifies the destination address for collected payments and the *privatekey* is a private key of any account with small amount of ETH (it can be a key exported from MetaMask, for example). In the result, each non-empty wallet that linked to a closed invoice will be funded with 0.001 ETH if needed and then DAI tokens be transferred out to the specified address. Released wallets will be then re-used by the backend because there is a high chance they still have gas.
+the *collect* parameter specifies the destination address for collected payments and the *privatekey* is a private key of any account with small amount of ETH (it can be a key exported from MetaMask, for example). In the result, each non-empty wallet that linked to a closed invoice will be funded with 0.001 ETH if needed and then WMUE tokens be transferred out to the specified address. Released wallets will be then re-used by the backend because there is a high chance they still have gas.
 
 
 **IMPORTANT**: Be careful when using this tool - any mistake may result in lost funds. Do not use accounts with large amounts of ETH.
