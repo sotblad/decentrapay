@@ -25,7 +25,7 @@ async function fetchInvoice(dispatch, params) {
   const invoice = await result.json()
   dispatch([SetInvoice, invoice])
   if (params.generateQR) {
-    let qrcode = await QRCode.toDataURL(`ethereum:${invoice.wallet.address}/transfer?address=${config.contracts.DAI.address}&uint256=${invoice.totalAmount}`)
+    let qrcode = await QRCode.toDataURL(`ethereum:${invoice.wallet.address}/transfer?address=${config.contracts.WMUE.address}&uint256=${invoice.totalAmount}`)
     dispatch([SetQRCode, qrcode])
   }
 }
