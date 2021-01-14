@@ -5,8 +5,8 @@ import config from 'config'
 export async function checkPendingNotifications() {
   const invoices = await Invoices.findPaidInvoices()
   for(let invoice of invoices) {
-    if (!invoice.notified && invoice.callbacks) {
-      request.post(invoice.callbacks[0].paid.url, {json:{token:invoice.callbacks.token,invoiceId:invoice._id,metadata:invoice.metadata}}, (err, resp) => {
+    if (!invoice.notified && invoice.callbacks[0]) {
+      request.post(invoice.callbacks[0].paid.url, {json:{token:invoice.callbacks[0].token,invoiceId:invoice._id,metadata:invoice.metadata}}, (err, resp) => {
         if (err || resp.statusCode != 200) {
           console.log(`invoice #${invoice._id}: callback error occured:`,err)
           return
